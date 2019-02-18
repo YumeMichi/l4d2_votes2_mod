@@ -1,0 +1,33 @@
+"ThirdPartyMaps"
+{
+    "1"
+    {
+        "mapname" "伦理问题"
+        "mapcode" "qe_1_cliche"
+    }
+    "2"
+    {
+        "mapname" "伦理问题2: 阿尔法测试"
+        "mapcode" "qe2_ep1"
+    }
+    "3"
+    {
+        "mapname" "黑色狂欢节 Remix"
+        "mapcode" "dkr_m1_motel"
+    }
+    "4"
+    {
+        "mapname" "暴雨: 倾盆大雨"
+        "mapcode" "dprm1_milltown_a"
+    }
+    "5"
+    {
+        "mapname" "教区: 海滨"
+        "mapcode" "bp_m1_waterfront"
+    }
+    "6"
+    {
+        "mapname" "冬日低语"
+        "mapcode" "wow_map1"
+    }
+}

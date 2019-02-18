@@ -19,6 +19,9 @@ new Handle:VoteNsMapED;
 new Handle:VoteNsED;
 new Float:lastDisconnectTime;
 
+new String:EN_name[64][16][16];
+new String:CHI_name[64][16][16];
+
 enum voteType
 {
     map
@@ -55,6 +58,8 @@ public OnPluginStart()
     VoteNsED = CreateConVar("l4d_VoteNs", "1", " 启用、关闭 投票插件", FCVAR_NOTIFY);
 
     AutoExecConfig(true, "l4d2_votes2_mod");
+
+    MapInit();
 }
 
 public OnClientPutInServer(client)
@@ -67,6 +72,52 @@ public OnMapStart()
     //
 }
 
+public MapInit()
+{
+    new i = 0;
+    new Handle:hFile = OpenConfig();
+
+    if (KvGotoFirstSubKey(hFile))
+    {
+        KvGetString(hFile, "mapname", CHI_name[i][0][0], 64, "错误的地图名");
+        KvGetString(hFile, "mapcode", EN_name[i][0][0], 64, "错误的建图代码");
+        i++;
+    }
+    while (KvGotoNextKey(hFile))
+    {
+        KvGetString(hFile, "mapname", CHI_name[i][0][0], 64, "错误的地图名");
+        KvGetString(hFile, "mapcode", EN_name[i][0][0], 64, "错误的建图代码");
+        i++;
+    }
+
+    CloseHandle(hFile);
+}
+
+public Handle:OpenConfig()
+{
+    decl String:sPath[256];
+
+    BuildPath(PathType:0, sPath, 256, "%s", "data/l4d2_abbw_map.txt");
+
+    if (!FileExists(sPath, false, "GAME"))
+    {
+        SetFailState("找不到文件 data/l4d2_abbw_map.txt");
+    }
+
+    new Handle:hFile = CreateKeyValues("ThirdPartyMaps", "", "");
+    if (FileToKeyValues(hFile, sPath))
+    {
+        PrintToServer("第三方地图数据 data/l4d2_abbw_map.txt 加载成功");
+    }
+    else
+    {
+        CloseHandle(hFile);
+        SetFailState("无法载入文件 data/l4d2_abbw_map.txt");
+    }
+
+    return hFile;
+}
+
 public Action:TimerAnnounce(Handle:timer, any:client)
 {
     if (IsClientInGame(client))
@@ -77,7 +128,10 @@ public Action:TimerAnnounce(Handle:timer, any:client)
 
 public Action:Command_Votes(client, args)
 {
-    if(GetConVarInt(VoteNsED) == 1)
+    // Reload map data
+    MapInit();
+
+    if (GetConVarInt(VoteNsED) == 1)
     {
         new VoteNsMapE_D = GetConVarInt(VoteNsMapED);
 
@@ -189,6 +243,16 @@ public Action:Command_VotemapsMenu(client, args)
             AddMenuItem(menu, "c11m1_greenhouse", "静寂时分");
             AddMenuItem(menu, "c12m1_hilltop", "血腥收获");
             AddMenuItem(menu, "c13m1_alpinecreek", "刺骨寒溪");
+
+            new i = 0;
+            while (i < 64)
+            {
+                if (!StrEqual("", CHI_name[i][0][0], true))
+                {
+                    AddMenuItem(menu, EN_name[i][0][0], CHI_name[i][0][0]);
+                }
+                i++;
+            }
         }
         else
         {

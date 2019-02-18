@@ -8,3 +8,4 @@ Original: http://bbs.3dmgame.com/thread-2094823-1-1.html
  - Remove unused "Vote Kick player", "Vote Ready" and "Vote HP".
  - Misc description changes.
  - Add default config file.
+ - Support third party maps. Thank you, kanade133.
