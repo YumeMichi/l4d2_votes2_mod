@@ -5,6 +5,6 @@ Original: http://bbs.3dmgame.com/thread-2094823-1-1.html
 ## Mods
 
  - Cleanup code style.
- - Remove unused "Kick player" and "Vote HP" functions.
+ - Remove unused "Vote Kick player", "Vote Ready" and "Vote HP".
  - Misc description changes.
  - Add default config file.
